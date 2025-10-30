@@ -19,14 +19,10 @@ import jakarta.servlet.http.HttpServletResponse;
 // 요청이 들어올때 마다 한번씩 실행되는 필터 -> 요청이 들어올때 마다 JWT 검증 수행
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final SecurityConfig securityConfig;
 
 	@Autowired
 	JwtUtil jwtUtil;
 
-    JwtAuthenticationFilter(SecurityConfig securityConfig) {
-        this.securityConfig = securityConfig;
-    }
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,9 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			} catch (Exception e) {
 				System.out.println("JWT 인증 실패 : " + e.getMessage());
 			}
-			// 요청 -> 인증 정보 확인 ->(true) 컨트롤러 전달 or (false) 다음 필터  
-			filterChain.doFilter(request, response);
+		
 		}
+		// 요청 -> 인증 정보 확인 ->(true) 컨트롤러 전달 or (false) 다음 필터  
+		filterChain.doFilter(request, response);
 	}
 	// request 객체 내의 헤더에서 token을 추출
 	private String parseJwt (HttpServletRequest request) {
