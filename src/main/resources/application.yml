@@ -44,3 +44,6 @@ spring:
         bucket: __ # 생성한 버킷명
       region:
         static: ap-northeast-2
+jwt:
+  secret: __
+  expiration: 180000
